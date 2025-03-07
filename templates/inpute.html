@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <form id="inputForm" action="/calculate" method="POST" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">Fee Calculator</h2>
+
+        <div class="mb-4">
+            <label for="feeAmount" class="block text-gray-600 font-medium mb-1">Fee Amount:</label>
+            <input type="text" id="feeAmount" name="feeAmount" placeholder="Enter Fee Amount"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <div id="feeAmountError" class="text-red-500 text-sm mt-1"></div>
+        </div>
+
+        <div class="mb-4">
+            <label for="transaction" class="block text-gray-600 font-medium mb-1">Transaction Charges:</label>
+            <input type="text" id="transaction" name="transaction" placeholder="Enter Transaction Charges"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <div id="transactionError" class="text-red-500 text-sm mt-1"></div>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+            Submit
+        </button>
+    </form>
+
+    <script>
+        function validateInput(inputElement, errorElement) {
+            let value = inputElement.value.trim();
+            if (value === '' || isNaN(parseFloat(value))) {
+                errorElement.textContent = "Please enter a valid floating-point number.";
+                return false;
+            } else {
+                errorElement.textContent = "";
+                return true;
+            }
+        }
+
+        document.getElementById('inputForm').addEventListener('submit', function(event) {
+            let isValid = true;
+            isValid &= validateInput(document.getElementById('feeAmount'), document.getElementById('feeAmountError'));
+            isValid &= validateInput(document.getElementById('transaction'), document.getElementById('transactionError'));
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
+
+</body>
+</html>
